@@ -5,7 +5,7 @@ const openai = new OpenAI({
     dangerouslyAllowBrowser: true
 });
 
-export const getPlaylistFromPrompt = async (prompt: string)=>{
+export const getPlaylistFromPrompt = async (prompt: string) =>{
     const playlists = await openai.chat.completions.create({
         model: "gpt-3.5-turbo-0125",
         messages: [
