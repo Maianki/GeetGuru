@@ -73,7 +73,7 @@ export class SpotifyApi {
         this.authenticationStrategy.setConfiguration(this.sdkConfig);
     }
 
-    public async makeRequest<TReturnType>(method: "GET" | "POST" | "PUT" | "DELETE", url: string, body: any = undefined, contentType: string | undefined = undefined): Promise<TReturnType> {
+    public async makeRequest<TReturnType>(method: "GET" | "POST" | "PUT" | "DELETE", url: string, body: unknown = undefined, contentType: string | undefined = undefined): Promise<TReturnType> {
         try {
             const accessToken = await this.authenticationStrategy.getOrCreateAccessToken();
             if (isEmptyAccessToken(accessToken)) {
@@ -113,11 +113,13 @@ export class SpotifyApi {
     }
 
     private initializeSdk(config: SdkOptions | undefined): SdkConfiguration {
-        const isBrowser = typeof window !== 'undefined';
+        // const isBrowser = typeof window !== 'undefined';
 
         const defaultConfig: SdkConfiguration = {
             fetch: (req: RequestInfo | URL, init: RequestInit | undefined) => fetch(req, init),
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             beforeRequest: (_: string, __: RequestInit) => { },
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             afterRequest: (_: string, __: RequestInit, ___: Response) => { },
             deserializer: new DefaultResponseDeserializer(),
             responseValidator: new DefaultResponseValidator(),
