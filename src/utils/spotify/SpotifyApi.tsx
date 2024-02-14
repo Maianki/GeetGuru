@@ -22,7 +22,6 @@ import DefaultResponseValidator from "./responsevalidation/DefaultResponseValida
 import NoOpErrorHandler from "./errorhandling/NoOpErrorHandler.js";
 import DocumentLocationRedirectionStrategy from "./redirection/DocumentLocationRedirectionStrategy.js";
 import LocalStorageCachingStrategy from "./caching/LocalStorageCachingStrategy.js";
-import InMemoryCachingStrategy from "./caching/InMemoryCachingStrategy.js";
 import ProvidedAccessTokenStrategy from "./auth/ProvidedAccessTokenStrategy.js";
 import type { AccessToken, SdkConfiguration, SdkOptions, AuthenticationResponse } from "./types.js";
 
@@ -124,9 +123,7 @@ export class SpotifyApi {
             responseValidator: new DefaultResponseValidator(),
             errorHandler: new NoOpErrorHandler(),
             redirectionStrategy: new DocumentLocationRedirectionStrategy(),
-            cachingStrategy: isBrowser
-                ? new LocalStorageCachingStrategy()
-                : new InMemoryCachingStrategy()
+            cachingStrategy:  new LocalStorageCachingStrategy()
         };
 
         return { ...defaultConfig, ...config };

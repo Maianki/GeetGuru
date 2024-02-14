@@ -1,5 +1,5 @@
-import type { AccessToken, ICachable } from "../types.js";
-import { Crypto } from "./Crypto.js";
+import type { AccessToken, ICachable } from "../types.tsx";
+import { Crypto } from "./Crypto.tsx";
 
 export default class AccessTokenHelpers {
     public static async refreshCachedAccessToken(clientId: string, item: AccessToken) {
@@ -43,7 +43,7 @@ export default class AccessTokenHelpers {
 
     public static generateCodeVerifier(length: number) {
         let text = '';
-        let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
         for (let i = 0; i < length; i++) {
             text += possible.charAt(Math.floor(Math.random() * possible.length));

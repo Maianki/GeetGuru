@@ -1,6 +1,6 @@
-import type { ICachable, SdkConfiguration, AccessToken, ICachingStrategy } from "../types.js";
-import AccessTokenHelpers from "./AccessTokenHelpers.js";
-import IAuthStrategy, { emptyAccessToken } from "./IAuthStrategy.js";
+import type { ICachable, SdkConfiguration, AccessToken, ICachingStrategy } from "../types.tsx";
+import AccessTokenHelpers from "./AccessTokenHelpers.tsx";
+import IAuthStrategy, { emptyAccessToken } from "./IAuthStrategy.tsx";
 
 interface CachedVerifier extends ICachable {
     verifier: string;

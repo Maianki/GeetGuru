@@ -1,10 +1,11 @@
-import { isEmptyAccessToken } from "../auth/IAuthStrategy.js";
-import { ICachingStrategy, ICachable } from "../types.js";
-import { ICacheStore } from "./ICacheStore.js";
+import { isEmptyAccessToken } from "../auth/IAuthStrategy.tsx";
+import { ICachingStrategy, ICachable } from "../types.tsx";
+import { ICacheStore } from "./ICacheStore.tsx";
 
 export default class GenericCache implements ICachingStrategy {
     constructor(
         private storage: ICacheStore,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         private updateFunctions: Map<string, (item: any) => Promise<ICachable>> = new Map(),
         private autoRenewInterval: number = 0,
         private autoRenewWindow: number = 2 * 60 * 1000 // Two minutes
