@@ -2,7 +2,8 @@
 import './App.css';
 import { useQuery } from '@tanstack/react-query';
 import { getPlaylistFromPrompt } from './services/getPlaylist';
-import { SpotifyApi } from '@spotify/web-api-ts-sdk';
+import { useSpotify } from './hooks/useSpotify';
+import { Scopes, SearchResults, SpotifyApi } from './utils/spotify/';
 
 function App() {
 
@@ -26,6 +27,15 @@ function App() {
     }
   })
 
+  const sdk = useSpotify(
+    import.meta.env.VITE_SPOTIFY_CLIENT_ID, 
+    import.meta.env.VITE_REDIRECT_TARGET, 
+    Scopes.userDetails
+  );
+
+
+  console.log(sdk);
+  
   if (isPending) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
