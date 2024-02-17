@@ -13,6 +13,7 @@ import { Spotify } from "react-spotify-embed";
 const SongSearchForm = () => {
   const [songPrompt, setSongPrompt] = useState<string>('');
   const [tracks, setTracks] = useState<(string | null)[]>([]);
+  const [isTrackLoading, isSetTrackLoading] = useState<boolean>(false);
 
   const sdk = SpotifyApi.withClientCredentials(
     import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -38,8 +39,8 @@ const SongSearchForm = () => {
 
   useEffect(() => {
     (async function () {
-
       if (data && data.length > 0) {
+        isSetTrackLoading(true);
         try{
           const trackPromises = data.map(async (song) => {
             try{
@@ -52,9 +53,11 @@ const SongSearchForm = () => {
       
           const resolvedTracks = await Promise.all(trackPromises);
           const finalTracks = resolvedTracks.filter(track=> track !== null);
-          setTracks(finalTracks);          
+          setTracks(finalTracks);     
+          isSetTrackLoading(false);     
         }catch(e){
           // setIstracksError(true);
+          isSetTrackLoading(false);    
         }
       }
     })();
@@ -73,7 +76,7 @@ const SongSearchForm = () => {
       <Search onSearch={handleSearch} onSubmit={handleSubmit} />
       <div className="flex justify-center">
       {
-        isLoading && <Audio height="100" width="100" color="#4fa94d" ariaLabel="audio-loading" wrapperStyle={{}} wrapperClass="wrapper-class" visible={true} />
+        (isLoading || isTrackLoading) && <Audio height="100" width="100" color="#4fa94d" ariaLabel="audio-loading" wrapperStyle={{}} wrapperClass="wrapper-class" visible={true} />
       }
         { tracks.length > 0 &&
         <div style={{width:"100%"}}> 
