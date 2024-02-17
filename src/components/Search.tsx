@@ -1,22 +1,27 @@
 import { useRef, useState } from 'react';
 import useAutosizeTextArea from '../hooks/useAutoResizeTextArea';
 
-const Search = ({ onSearch, onSubmit }) => {
+interface SearchProps {
+  onSearch: (searchTerm: string) => void;
+  onSubmit: (searchTerm: string) => void;
+}
+
+const Search : React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const textAreaRef = useRef(null);
 
   useAutosizeTextArea(textAreaRef.current, searchTerm);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSearchTerm(e.target.value);
     onSearch(e.target.value);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
 
-      onSubmit(e.target.value);
+      onSubmit(e.currentTarget.value);
       setSearchTerm('');
     }
   };
