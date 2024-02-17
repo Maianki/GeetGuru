@@ -75,16 +75,17 @@ const SongSearchForm = () => {
       {
         isLoading && <Audio height="100" width="100" color="#4fa94d" ariaLabel="audio-loading" wrapperStyle={{}} wrapperClass="wrapper-class" visible={true} />
       }
-        <div>
-          {tracks.length > 0 && tracks.map(track => {
+        { tracks.length > 0 &&
+        <div style={{width:"100%"}}> 
+          {tracks.map(track => {
             return <Spotify
-              className="mt-8"
+              className="mt-3"
               key={track}
               wide
               link={`https://open.spotify.com/track/${track}`} />;
           })}
         </div>
-       
+        }
       </div>
     </>
   );
