@@ -6,14 +6,13 @@ import { Audio } from 'react-loader-spinner';
 import { SpotifyApi, Scopes } from '@spotify/web-api-ts-sdk';
 import { Spotify } from "react-spotify-embed";
 
-interface SongSearchFormProps {
-  searchTerm: string;
-}
+// interface SongSearchFormProps {
+//   searchTerm: string;
+// }
 
 const SongSearchForm = () => {
   const [songPrompt, setSongPrompt] = useState<string>('');
-  const [tracks, setTracks] = useState<string[]>([]);
-  const [isTracksError, setIstracksError] = useState<boolean>(false);
+  const [tracks, setTracks] = useState<(string | null)[]>([]);
 
   const sdk = SpotifyApi.withClientCredentials(
     import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -21,7 +20,7 @@ const SongSearchForm = () => {
     Scopes.all
   );
 
-  const { isPending, isLoading, error, data, refetch } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ['songPrompt'],
     queryFn: () => getPlaylistFromPrompt(songPrompt),
     staleTime: 60 * 60 * 1000,
@@ -55,7 +54,7 @@ const SongSearchForm = () => {
           const finalTracks = resolvedTracks.filter(track=> track !== null);
           setTracks(finalTracks);          
         }catch(e){
-          setIstracksError(true);
+          // setIstracksError(true);
         }
       }
     })();

@@ -1,4 +1,4 @@
-import Container from '../components/Container';
+import Container from '../components/Container.tsx';
 import SongSearchForm from '../components/SongSearchForm.tsx';
 import Bg from '../images/bg.svg';
 import Girl from '../images/girl.png';
