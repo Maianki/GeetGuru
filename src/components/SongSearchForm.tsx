@@ -13,7 +13,7 @@ interface SongSearchFormProps {
 const SongSearchForm = () => {
   const [songPrompt, setSongPrompt] = useState<string>('');
   const [tracks, setTracks] = useState<string[]>([]);
-  const [isTracks, setIstracks] = useState<boolean>(false);
+  const [isTracksError, setIstracksError] = useState<boolean>(false);
 
   const sdk = SpotifyApi.withClientCredentials(
     import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -27,7 +27,6 @@ const SongSearchForm = () => {
     staleTime: 60 * 60 * 1000,
     enabled : false,
     select: (data) => {
-      console.log(data);
       if (typeof data === 'string') {
         const parsedData = JSON.parse(data);
         if (Array.isArray(parsedData)) {
@@ -35,25 +34,29 @@ const SongSearchForm = () => {
         }
       }
       return [];
-    },
+    }
   });
 
   useEffect(() => {
     (async function () {
+
       if (data && data.length > 0) {
-        setIstracks(true);
-        data.forEach(async (song) => {
-          try {
-            const items = await sdk.search(song, ['track']);
-            const track = items.tracks.items[0].id;
-            console.table({href : items.tracks.items[0].href, uri: items.tracks.items[0].uri, name: items.tracks.items[0].name, track : items.tracks.items[0].id});
-            setTracks(prevTracks => [...prevTracks, track]);
-            setIstracks(false);
-          } catch (error) {
-            console.error("Error occurred while searching:", error);
-            setIstracks(false);
-          }
-        });
+        try{
+          const trackPromises = data.map(async (song) => {
+            try{
+              const items = await sdk.search(song, ['track']);
+              return items.tracks.items[0].id;
+            }catch(err){
+              return null;
+            }
+          });
+      
+          const resolvedTracks = await Promise.all(trackPromises);
+          const finalTracks = resolvedTracks.filter(track=> track !== null);
+          setTracks(finalTracks);          
+        }catch(e){
+          setIstracksError(true);
+        }
       }
     })();
   }, [data]);
@@ -66,8 +69,6 @@ const SongSearchForm = () => {
     refetch();
   };
 
-  console.log(data);
-
   return (
     <>
       <Search onSearch={handleSearch} onSubmit={handleSubmit} />
@@ -79,10 +80,12 @@ const SongSearchForm = () => {
           {tracks.length > 0 && tracks.map(track => {
             return <Spotify
               className="mt-8"
+              key={track}
               wide
               link={`https://open.spotify.com/track/${track}`} />;
           })}
         </div>
+       
       </div>
     </>
   );
