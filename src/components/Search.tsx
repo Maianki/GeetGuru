@@ -8,6 +8,12 @@ interface SearchProps {
 
 const Search : React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDropdown, setShowDropdown] = useState(true);
+  const [examplePrompts] = useState([
+    "Songs for a lazy Sunday",
+    "Songs for unemployed people"
+  ]);
+
   const textAreaRef = useRef(null);
 
   useAutosizeTextArea(textAreaRef.current, searchTerm);
@@ -15,6 +21,12 @@ const Search : React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSearchTerm(e.target.value);
     onSearch(e.target.value);
+
+    console.log(e.target.value);
+    console.log(e.target.value.length >0);
+    
+    
+    setShowDropdown(searchTerm.length <= 0);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -26,15 +38,29 @@ const Search : React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
     }
   };
 
+  const selectExamplePrompt = (prompt: string) => {
+    // setSearchTerm(prompt);
+    // setShowDropdown(false);
+  };
+
   return (
-    <textarea
-      className="text-neutral h-[56px] w-full resize-none rounded-md bg-secondary px-4 py-3.5 text-xl font-light shadow-sm outline-0 focus-visible:ring-2 "
-      value={searchTerm}
-      onChange={handleSearch}
-      placeholder="Search for melodies..."
-      ref={textAreaRef}
-      onKeyDown={handleKeyPress}
-    />
+      <div style={{ position: 'relative' }}>
+      <textarea
+        className="text-neutral h-[56px] w-full resize-none rounded-md bg-secondary px-4 py-3.5 text-xl font-light shadow-sm outline-0 focus-visible:ring-2 "
+        value={searchTerm}
+        onChange={handleSearch}
+        placeholder="E.g. 'Songs for a lazy Sunday' 'Songs for unemployed people'"
+        ref={textAreaRef}
+        onKeyDown={handleKeyPress}
+      />
+      {showDropdown && (
+        <div id="dropdown-menu" className="bg-gray-200 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-0">
+          {examplePrompts.map((prompt, index) => (
+            <div className="rounded bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" key={index} onClick={() => selectExamplePrompt(prompt)}>{prompt}</div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
