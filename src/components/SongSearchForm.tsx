@@ -68,8 +68,30 @@ const SongSearchForm = () => {
   };
 
   const handleSubmit = () => {
+    setTracks([]);
     refetch();
   };
+
+  const handleCreatePlaylist = async ()=>{
+    try{
+      const sdk = SpotifyApi.withUserAuthorization(
+        import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+        import.meta.env.VITE_ENV === "DEVELOPMENT" ? "http://localhost:5173/callback" :"https://geetguru.vercel.app/",
+        Scopes.all
+      );
+  
+      const user = await sdk.currentUser.profile();
+      const user_id = user.id;
+      const playlist = await sdk.playlists.createPlaylist(user_id, { name : `Geet Guru : ${songPrompt}`});
+      const playlistId = playlist.id;
+      const uris = tracks.map(track=>`spotify:track:${track}`);
+      console.log(tracks);
+      await sdk.playlists.addItemsToPlaylist(playlistId, uris as string[]);
+      console.log(playlistId);
+    }catch(err){
+      console.log();
+    }
+  }
 
   return (
     <>
@@ -79,7 +101,7 @@ const SongSearchForm = () => {
         (isLoading || isTrackLoading) && <Audio height="100" width="100" color="#4fa94d" ariaLabel="audio-loading" wrapperStyle={{}} wrapperClass="wrapper-class" visible={true} />
       }
         { tracks.length > 0 &&
-        <div style={{width:"100%"}}> 
+        <div style={{ width:"100%"}}> 
           {tracks.map(track => {
             return <Spotify
               className="mt-3"
@@ -90,6 +112,7 @@ const SongSearchForm = () => {
         </div>
         }
       </div>
+      {tracks.length > 0 && <button type="button" onClick={handleCreatePlaylist} className="mt-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Create Playlist</button>}
     </>
   );
 };

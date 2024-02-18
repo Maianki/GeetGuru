@@ -41,6 +41,7 @@ const Search : React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const selectExamplePrompt = (prompt: string) => {
     // setSearchTerm(prompt);
     // setShowDropdown(false);
+    console.log(prompt);
   };
 
   return (
