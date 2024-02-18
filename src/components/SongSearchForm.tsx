@@ -76,7 +76,7 @@ const SongSearchForm = () => {
     try{
       const sdk = SpotifyApi.withUserAuthorization(
         import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-        import.meta.env.VITE_ENV === "DEVELOPMENT" ? "http://localhost:5173/callback" :"https://geetguru.vercel.app/",
+        import.meta.env.VITE_ENV === "DEVELOPMENT" ? "http://localhost:5173/callback" :"https://geetguru.vercel.app/callback",
         Scopes.all
       );
   
