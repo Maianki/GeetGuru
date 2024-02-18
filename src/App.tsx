@@ -18,10 +18,9 @@ function App() {
       </div>
       </button>
       </a>
-      {/* <Home /> */}
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/callback" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/callback" element={<Home />} />
       </Routes>
     </>
   );
