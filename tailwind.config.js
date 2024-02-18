@@ -10,6 +10,7 @@ export default {
         secondary: '#0E3E62',
         tertiary: '#FEE3BC',
         neutral: '#AAB6C0',
+        danger: '#e07268',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
