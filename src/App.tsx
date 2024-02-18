@@ -1,5 +1,9 @@
 import Home from './pages/Home.tsx';
 import Chai from './images/chai.svg';
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
@@ -14,7 +18,11 @@ function App() {
       </div>
       </button>
       </a>
-      <Home />
+      {/* <Home /> */}
+      <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/callback" element={<Home />} />
+      </Routes>
     </>
   );
 }
