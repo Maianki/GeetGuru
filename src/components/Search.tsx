@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+// import { TbMusicSearch } from "react-icons/tb";
 import useAutosizeTextArea from '../hooks/useAutoResizeTextArea';
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
-  onSubmit: (searchTerm: string) => void;
+  onSubmit: () => void;
 }
 
 const Search: React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
@@ -19,15 +20,13 @@ const Search: React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const handleSearch = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSearchTerm(e.target.value);
     onSearch(e.target.value);
-
-    console.log(e.target.value);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
 
-      onSubmit(e.currentTarget.value);
+      onSubmit();
       setSearchTerm('');
     }
   };
@@ -42,6 +41,14 @@ const Search: React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
         ref={textAreaRef}
         onKeyDown={handleKeyPress}
       />
+      <button
+      className="flex items-center"
+      style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', opacity: '.8', color : "#FEE3BC" }}
+      onClick={onSubmit}
+    >
+      Search
+      {/* <TbMusicSearch />  */}
+    </button>
     </div>
   );
 };
