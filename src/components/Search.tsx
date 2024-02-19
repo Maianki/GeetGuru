@@ -9,10 +9,6 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [examplePrompts] = useState([
-    'Songs for a lazy Sunday',
-    'Songs for unemployed people',
-  ]);
 
   useEffect(() => {
     textAreaRef.current?.focus();
@@ -34,12 +30,6 @@ const Search: React.FC<SearchProps> = ({ onSearch, onSubmit }) => {
       onSubmit(e.currentTarget.value);
       setSearchTerm('');
     }
-  };
-
-  const selectExamplePrompt = (prompt: string) => {
-    // setSearchTerm(prompt);
-    // setShowDropdown(false);
-    console.log(prompt);
   };
 
   return (
