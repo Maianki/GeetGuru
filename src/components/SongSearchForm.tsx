@@ -103,8 +103,10 @@ const SongSearchForm = () => {
       const uris = tracks.map((track) => `spotify:track:${track}`);
       await sdk.playlists.addItemsToPlaylist(playlistId, uris as string[]);
       setIsPlaylistLoading(false);
+      toast.success("Playlist created on your spotify account!");
     } catch (err) {
       setIsPlaylistLoading(false);
+      toast.error("Something went wrong! Please try again.");
       console.log();
     }
   };
